@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <script>
+      // Prevent forms from submitting.
+      function preventFormSubmit() {
+        var forms = document.querySelectorAll('form');
+        for (var i = 0; i < forms.length; i++) {
+          forms[i].addEventListener('submit', function(event) {
+            event.preventDefault();
+          });
+        }
+      }
+      window.addEventListener('load', preventFormSubmit);
+
+      function handleFormSubmit(formObject) {
+        google.script.run.withSuccessHandler(updateResponse).processForm(formObject);
+      }
+      function updateResponse(response) {
+        var div = document.getElementById('output');
+        div.innerHTML = 'Tags added: ' + response;
+      }
+    </script>
+  </head>
+  <body>
+  <form id="tagForm" onsubmit="handleFormSubmit(this)">
+  <table>
+  <tr>
+  <td>TicketID:</td><td><input type="text" id="txtTicketID" name="txtTicketID" /></td>
+  </tr>
+  <tr>
+  <td>Tag:</td><td><input type="text" id="txtTag" name="txtTag" /></td>
+  </tr>
+  <tr></tr>
+  <tr>
+  <td><input type="submit" value="Submit" /></td>
+  <td><input type="button" value="Close"onclick="google.script.host.close()" /></td>
+  </tr>
+  </table>    
+  <div id="output"></div>
+  </body>
+</html>
+
+
